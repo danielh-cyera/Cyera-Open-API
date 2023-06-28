@@ -1,0 +1,1225 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/ready": {
+      "get": {
+        "operationId": "StatusProbeManagerHttpController_ready",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "StatusProbeManagerHttpController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/onboarding/createPlatform": {
+      "post": {
+        "operationId": "OnboardingController_insertNewPlatform",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlatformDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePlatformResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Onboarding"
+        ]
+      }
+    },
+    "/v1/datastores": {
+      "get": {
+        "operationId": "DatastoreController_findAll",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Datastore name",
+            "example": null,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "description": "Cloud Provider",
+            "example": null,
+            "schema": {
+              "enum": [
+                "AWS",
+                "Azure",
+                "GCP",
+                "Snowflake",
+                "Microsoft365",
+                "Atlas",
+                "Salesforce",
+                "Box",
+                "Google Workspace",
+                "Oracle Cloud",
+                "Mongo Atlas",
+                "Databricks",
+                "Dropbox",
+                "Jira",
+                "Github",
+                "Workday"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "infrastructure",
+            "required": false,
+            "in": "query",
+            "description": "Infrastructure",
+            "example": null,
+            "schema": {
+              "enum": [
+                "ec2",
+                "rds",
+                "s3",
+                "elastic-cache",
+                "dynamo-db",
+                "bigquery",
+                "gcp-storage",
+                "google-drive",
+                "azure-sql-database",
+                "azure-blob-storage",
+                "azure-sql-managed-instance",
+                "Cloud SQL",
+                "azure-vm-sql",
+                "azure-database-server",
+                "redshift",
+                "OneDrive",
+                "snowflake",
+                "atlas-cluster",
+                "azure-vm",
+                "OpenSearch",
+                "databricks"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "regions",
+            "required": false,
+            "in": "query",
+            "description": "Regions (delimited by comma separator ',')",
+            "example": null,
+            "schema": {
+              "format": "form",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "inPlatformIdentifier",
+            "required": false,
+            "in": "query",
+            "description": "Account's platform identifier (e.g AWS Account ID)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DatastoreDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Datastores"
+        ]
+      }
+    },
+    "/v1/tenants/config": {
+      "get": {
+        "operationId": "TenantConfigController_getConfig",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "required": true,
+            "in": "query",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ]
+      },
+      "patch": {
+        "operationId": "TenantConfigController_updateConfig",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTenantConfigDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ]
+      }
+    },
+    "/v1/tenants/account_validation": {
+      "post": {
+        "operationId": "TenantConfigController_validateAccount",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountValidationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Tenants"
+        ]
+      }
+    },
+    "/v1/feature-flags": {
+      "get": {
+        "operationId": "FeatureFlagsController_getFeatureFlags",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "required": true,
+            "in": "query",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFeatureFlagsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Feature Flags"
+        ]
+      },
+      "patch": {
+        "operationId": "FeatureFlagsController_updateFeatureFlag",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFeatureFlagsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateFeatureFlagsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Feature Flags"
+        ]
+      }
+    },
+    "/v1/accounts": {
+      "get": {
+        "operationId": "AccountController_getAll",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "required": true,
+            "in": "query",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accounts"
+        ]
+      },
+      "patch": {
+        "operationId": "AccountController_update",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccountDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accounts"
+        ]
+      }
+    },
+    "/v1/organizations": {
+      "get": {
+        "operationId": "OrganizationController_getAll",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "required": true,
+            "in": "query",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Organizations"
+        ]
+      },
+      "patch": {
+        "operationId": "OrganizationController_updateConfig",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrganizationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Organizations"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Cyera Backoffice API",
+    "description": "Data Resource API for Backoffice",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "JWT Bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "description": "Insert here your authentication bearer, generated by one of our token generation endpoints"
+      }
+    },
+    "schemas": {
+      "LoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "string",
+            "description": "JWT Token",
+            "example": "eyJhbG......"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh Token",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Expiration time in miliseconds",
+            "example": 86400
+          },
+          "expires": {
+            "type": "number",
+            "description": "Expiration time in Date",
+            "example": "Thu, 02 Feb 2023 00:00:00 GMT"
+          }
+        },
+        "required": [
+          "jwt",
+          "refreshToken",
+          "expiresIn",
+          "expires"
+        ]
+      },
+      "LoginBodyDto": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "description": "API Key",
+            "example": "5eaf2f6a-538e-482a-af7f-307f3bdce382"
+          },
+          "secret": {
+            "type": "string",
+            "description": "API Secret",
+            "example": "e38797d4-ccc8-4874-afa3-ee1c194dffb8"
+          }
+        },
+        "required": [
+          "clientId",
+          "secret"
+        ]
+      },
+      "AccountPlatform": {
+        "type": "string",
+        "enum": [
+          "AWS",
+          "Azure",
+          "GCP",
+          "Snowflake",
+          "Microsoft365",
+          "Atlas",
+          "Salesforce",
+          "Box",
+          "Google Workspace",
+          "Oracle Cloud",
+          "Mongo Atlas",
+          "Databricks",
+          "Dropbox",
+          "Jira",
+          "Github",
+          "Workday"
+        ]
+      },
+      "CreatePlatformDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "mainRegion": {
+            "type": "string",
+            "description": "Platform main region",
+            "example": "us-east-1"
+          },
+          "isOutpost": {
+            "type": "boolean",
+            "description": "Is outpost deployment",
+            "example": "true"
+          },
+          "platform": {
+            "$ref": "#/components/schemas/AccountPlatform"
+          }
+        },
+        "required": [
+          "tenantId",
+          "mainRegion",
+          "isOutpost",
+          "platform"
+        ]
+      },
+      "CreatePlatformResponseDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "PaginationResponseDto": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "offset": {
+            "type": "number",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "minimum": 0
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of results",
+            "example": 1,
+            "minimum": 0
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 0
+            }
+          }
+        },
+        "required": [
+          "limit",
+          "offset",
+          "total",
+          "results"
+        ]
+      },
+      "AccountSummaryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Account name as provided to Cyera"
+          },
+          "inPlatformIdentifier": {
+            "type": "string",
+            "description": "Account's platform identifier (e.g AWS Account ID)"
+          }
+        },
+        "required": [
+          "name",
+          "inPlatformIdentifier"
+        ]
+      },
+      "RecordCountBySensitivityDto": {
+        "type": "object",
+        "properties": {
+          "Very Sensitive": {
+            "type": "number"
+          },
+          "Sensitive": {
+            "type": "number"
+          },
+          "Not Sensitive": {
+            "type": "number"
+          },
+          "Unclassified": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "Very Sensitive",
+          "Sensitive",
+          "Not Sensitive",
+          "Unclassified"
+        ]
+      },
+      "DatastoreIssuesDto": {
+        "type": "object",
+        "properties": {
+          "open": {
+            "type": "number",
+            "description": "Open Issues Count"
+          },
+          "resolved": {
+            "type": "number",
+            "description": "Resolved Issues Count"
+          },
+          "ignored": {
+            "type": "number",
+            "description": "Ignored Issues Count"
+          }
+        },
+        "required": [
+          "open",
+          "resolved",
+          "ignored"
+        ]
+      },
+      "DatastoreDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Datastore UID",
+            "example": "379661c3-ad91-4691-ab58-8704ff5f6a9e"
+          },
+          "name": {
+            "type": "string",
+            "description": "Datastore name",
+            "example": "users-bucket"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "AWS",
+              "Azure",
+              "GCP",
+              "Snowflake",
+              "Microsoft365",
+              "Atlas",
+              "Salesforce",
+              "Box",
+              "Google Workspace",
+              "Oracle Cloud",
+              "Mongo Atlas",
+              "Databricks",
+              "Dropbox",
+              "Jira",
+              "Github",
+              "Workday"
+            ],
+            "description": "Cloud Provider",
+            "example": "AWS"
+          },
+          "infrastructure": {
+            "type": "string",
+            "enum": [
+              "ec2",
+              "rds",
+              "s3",
+              "elastic-cache",
+              "dynamo-db",
+              "bigquery",
+              "gcp-storage",
+              "google-drive",
+              "azure-sql-database",
+              "azure-blob-storage",
+              "azure-sql-managed-instance",
+              "Cloud SQL",
+              "azure-vm-sql",
+              "azure-database-server",
+              "redshift",
+              "OneDrive",
+              "snowflake",
+              "atlas-cluster",
+              "azure-vm",
+              "OpenSearch",
+              "databricks"
+            ],
+            "description": "Infrastructure",
+            "example": "s3"
+          },
+          "engine": {
+            "type": "string",
+            "description": "Engine",
+            "example": "s3"
+          },
+          "cloudProviderUrl": {
+            "type": "string",
+            "description": "Cloud Provider URL",
+            "example": "https://s3.console.aws.amazon.com/s3/buckets/users-bucket?region=us-east-1&tab=objects"
+          },
+          "scanningState": {
+            "type": "string",
+            "enum": [
+              "InProgress",
+              "Scanned",
+              "NotScanned",
+              "Ignored"
+            ],
+            "description": "Scanning State"
+          },
+          "ghost": {
+            "type": "boolean",
+            "description": "Ghost Datastore"
+          },
+          "regions": {
+            "description": "Regions",
+            "example": [
+              "us-east-1",
+              "us-east-2"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "vpc": {
+            "type": "string",
+            "description": "Virtual Private Network",
+            "nullable": true
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner's email",
+            "nullable": true,
+            "example": "some@admin.com"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity based on existing data within the datastore",
+            "example": "VerySensitive"
+          },
+          "recordCountBySensitivity": {
+            "description": "Record count by sensitivity",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordCountBySensitivityDto"
+              }
+            ]
+          },
+          "account": {
+            "description": "Cloud Provider Account",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountSummaryDto"
+              }
+            ]
+          },
+          "classificationGroups": {
+            "type": "array",
+            "description": "Classification Groups derived from all classifications that exist within this datastore",
+            "example": [
+              "Personal",
+              "Health",
+              "Financial",
+              "IT & Security",
+              "Business & IP"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "Personal",
+                "Health",
+                "Financial",
+                "IT & Security",
+                "Business & IP"
+              ]
+            }
+          },
+          "issues": {
+            "description": "Datastore's issues breakdown",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DatastoreIssuesDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "provider",
+          "infrastructure",
+          "engine",
+          "cloudProviderUrl",
+          "scanningState",
+          "ghost",
+          "regions",
+          "sensitivity",
+          "recordCountBySensitivity",
+          "account",
+          "classificationGroups",
+          "issues"
+        ]
+      },
+      "UpdateTenantConfigDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "isDataBeingMonitored": {
+            "type": "boolean"
+          },
+          "allowStructuredAutoVerify": {
+            "type": "boolean"
+          },
+          "allowUnstructuredAutoVerify": {
+            "type": "boolean"
+          },
+          "skipM365PhlDatastores": {
+            "type": "boolean"
+          },
+          "isPov": {
+            "type": "boolean"
+          },
+          "activeCustomer": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "tenantId",
+          "isDataBeingMonitored",
+          "allowStructuredAutoVerify",
+          "allowUnstructuredAutoVerify",
+          "skipM365PhlDatastores",
+          "isPov",
+          "activeCustomer"
+        ]
+      },
+      "AccountValidationDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "uid": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "checkType": {
+            "type": "string",
+            "example": "CyeraRole"
+          },
+          "accountType": {
+            "type": "string",
+            "example": "AWS"
+          }
+        },
+        "required": [
+          "tenantId",
+          "uid",
+          "checkType",
+          "accountType"
+        ]
+      },
+      "GetFeatureFlagMapperDto": {
+        "type": "object",
+        "properties": {
+          "New Onboarding Screen": {
+            "type": "boolean"
+          },
+          "Access Graph": {
+            "type": "boolean"
+          },
+          "Should Show Samples": {
+            "type": "boolean"
+          },
+          "Jira Ticket Creation": {
+            "type": "boolean"
+          },
+          "Should Mask Samples": {
+            "type": "boolean"
+          },
+          "Should Link To Object": {
+            "type": "boolean"
+          },
+          "Should Group Issues": {
+            "type": "boolean"
+          },
+          "Edit Classification": {
+            "type": "boolean"
+          },
+          "Show Derived Owners": {
+            "type": "boolean"
+          },
+          "Data Inventory": {
+            "type": "boolean"
+          },
+          "DDR": {
+            "type": "boolean"
+          },
+          "Datastore Scan State": {
+            "type": "boolean"
+          },
+          "Show Datastore Last Seen": {
+            "type": "boolean"
+          },
+          "Show Datastore Last Data Refresh": {
+            "type": "boolean"
+          },
+          "Wiz Integration": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "New Onboarding Screen",
+          "Access Graph",
+          "Should Show Samples",
+          "Jira Ticket Creation",
+          "Should Mask Samples",
+          "Should Link To Object",
+          "Should Group Issues",
+          "Edit Classification",
+          "Show Derived Owners",
+          "Data Inventory",
+          "DDR",
+          "Datastore Scan State",
+          "Show Datastore Last Seen",
+          "Show Datastore Last Data Refresh",
+          "Wiz Integration"
+        ]
+      },
+      "GetFeatureFlagsResponseDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "featureFlags": {
+            "$ref": "#/components/schemas/GetFeatureFlagMapperDto"
+          }
+        },
+        "required": [
+          "tenantId",
+          "featureFlags"
+        ]
+      },
+      "UpdateFeatureFlagsResponseDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "featureFlags": {
+            "$ref": "#/components/schemas/GetFeatureFlagMapperDto"
+          }
+        },
+        "required": [
+          "tenantId",
+          "featureFlags"
+        ]
+      },
+      "UpdateFeatureFlagsMapperDto": {
+        "type": "object",
+        "properties": {
+          "New Onboarding Screen": {
+            "type": "boolean"
+          },
+          "Access Graph": {
+            "type": "boolean"
+          },
+          "Should Show Samples": {
+            "type": "boolean"
+          },
+          "Jira Ticket Creation": {
+            "type": "boolean"
+          },
+          "Should Mask Samples": {
+            "type": "boolean"
+          },
+          "Should Link To Object": {
+            "type": "boolean"
+          },
+          "Should Group Issues": {
+            "type": "boolean"
+          },
+          "Edit Classification": {
+            "type": "boolean"
+          },
+          "Show Derived Owners": {
+            "type": "boolean"
+          },
+          "Data Inventory": {
+            "type": "boolean"
+          },
+          "DDR": {
+            "type": "boolean"
+          },
+          "Datastore Scan State": {
+            "type": "boolean"
+          },
+          "Show Datastore Last Seen": {
+            "type": "boolean"
+          },
+          "Show Datastore Last Data Refresh": {
+            "type": "boolean"
+          },
+          "Wiz Integration": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "New Onboarding Screen",
+          "Access Graph",
+          "Should Show Samples",
+          "Jira Ticket Creation",
+          "Should Mask Samples",
+          "Should Link To Object",
+          "Should Group Issues",
+          "Edit Classification",
+          "Show Derived Owners",
+          "Data Inventory",
+          "DDR",
+          "Datastore Scan State",
+          "Show Datastore Last Seen",
+          "Show Datastore Last Data Refresh",
+          "Wiz Integration"
+        ]
+      },
+      "UpdateFeatureFlagsDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "featureFlags": {
+            "$ref": "#/components/schemas/UpdateFeatureFlagsMapperDto"
+          }
+        },
+        "required": [
+          "tenantId",
+          "featureFlags"
+        ]
+      },
+      "BaseUpdateAccountDto": {
+        "type": "object",
+        "properties": {
+          "accountUid": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "isDataBeingMonitored": {
+            "type": "boolean"
+          },
+          "shouldRunDailyInventoryScan": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Connected",
+              "DisconnectedWithAuthorizedLink",
+              "Disconnected",
+              "DisabledOnCloudProvider",
+              "Error",
+              "ConnectedWithOldCyeraRole",
+              "ConnectedWithoutSandbox"
+            ],
+            "example": "Connected"
+          },
+          "addedBy": {
+            "type": "object",
+            "example": "user1"
+          },
+          "name": {
+            "type": "object",
+            "example": "name"
+          },
+          "dailyInventoryScanDisabledReason": {
+            "type": "object",
+            "example": null
+          }
+        },
+        "required": [
+          "accountUid",
+          "isDataBeingMonitored",
+          "shouldRunDailyInventoryScan",
+          "status",
+          "addedBy",
+          "name",
+          "dailyInventoryScanDisabledReason"
+        ]
+      },
+      "UpdateAccountDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseUpdateAccountDto"
+            }
+          }
+        },
+        "required": [
+          "tenantId",
+          "accounts"
+        ]
+      },
+      "UpdateOrganizationFields": {
+        "type": "object",
+        "properties": {
+          "shouldRunDailyInventoryScan": {
+            "type": "boolean"
+          },
+          "dailyInventoryScanDisabledReason": {
+            "type": "object",
+            "example": "A reason"
+          },
+          "organizationUid": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          }
+        },
+        "required": [
+          "shouldRunDailyInventoryScan",
+          "dailyInventoryScanDisabledReason",
+          "organizationUid"
+        ]
+      },
+      "UpdateOrganizationDto": {
+        "type": "object",
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "organizationToUpdate": {
+            "$ref": "#/components/schemas/UpdateOrganizationFields"
+          }
+        },
+        "required": [
+          "tenantId",
+          "organizationToUpdate"
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "JWT Bearer": []
+    }
+  ]
+}
