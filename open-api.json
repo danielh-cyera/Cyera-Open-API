@@ -1,0 +1,3506 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/v1/datastores": {
+      "get": {
+        "operationId": "DatastoreController_findAll",
+        "summary": "This endpoint is deprecated. Please use v2/datastores endpoint instead in which datastore scanning state values are updated",
+        "deprecated": true,
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Datastore name",
+            "example": null,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "description": "Cloud Provider",
+            "example": null,
+            "schema": {
+              "enum": [
+                "AWS",
+                "Azure",
+                "GCP",
+                "Snowflake",
+                "Microsoft365",
+                "Atlas",
+                "Salesforce",
+                "Box",
+                "Google Workspace",
+                "Oracle Cloud",
+                "Mongo Atlas",
+                "Databricks",
+                "Dropbox",
+                "Jira",
+                "Github",
+                "Workday",
+                "On Premise"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "infrastructure",
+            "required": false,
+            "in": "query",
+            "description": "Infrastructure",
+            "example": null,
+            "schema": {
+              "enum": [
+                "ec2",
+                "rds",
+                "s3",
+                "elastic-cache",
+                "dynamo-db",
+                "bigquery",
+                "gcp-storage",
+                "google-drive",
+                "azure-sql-database",
+                "azure-blob-storage",
+                "azure-file-share",
+                "azure-sql-managed-instance",
+                "Cloud SQL",
+                "azure-vm-sql",
+                "azure-database-server",
+                "redshift",
+                "OneDrive",
+                "snowflake",
+                "atlas-cluster",
+                "azure-vm",
+                "OpenSearch",
+                "databricks",
+                "cosmos-db"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "regions",
+            "required": false,
+            "in": "query",
+            "description": "Regions (delimited by comma separator ',')",
+            "example": null,
+            "schema": {
+              "format": "form",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "inPlatformIdentifier",
+            "required": false,
+            "in": "query",
+            "description": "Account's platform identifier (e.g AWS Account ID)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DatastoreDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Datastores"
+        ]
+      }
+    },
+    "/v2/datastores": {
+      "get": {
+        "operationId": "DatastoreController_findAllV2",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Datastore name",
+            "example": null,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "required": false,
+            "in": "query",
+            "description": "Cloud Provider",
+            "example": null,
+            "schema": {
+              "enum": [
+                "AWS",
+                "Azure",
+                "GCP",
+                "Snowflake",
+                "Microsoft365",
+                "Atlas",
+                "Salesforce",
+                "Box",
+                "Google Workspace",
+                "Oracle Cloud",
+                "Mongo Atlas",
+                "Databricks",
+                "Dropbox",
+                "Jira",
+                "Github",
+                "Workday",
+                "On Premise"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "infrastructure",
+            "required": false,
+            "in": "query",
+            "description": "Infrastructure",
+            "example": null,
+            "schema": {
+              "enum": [
+                "ec2",
+                "rds",
+                "s3",
+                "elastic-cache",
+                "dynamo-db",
+                "bigquery",
+                "gcp-storage",
+                "google-drive",
+                "azure-sql-database",
+                "azure-blob-storage",
+                "azure-file-share",
+                "azure-sql-managed-instance",
+                "Cloud SQL",
+                "azure-vm-sql",
+                "azure-database-server",
+                "redshift",
+                "OneDrive",
+                "snowflake",
+                "atlas-cluster",
+                "azure-vm",
+                "OpenSearch",
+                "databricks",
+                "cosmos-db"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "regions",
+            "required": false,
+            "in": "query",
+            "description": "Regions (delimited by comma separator ',')",
+            "example": null,
+            "schema": {
+              "format": "form",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "inPlatformIdentifier",
+            "required": false,
+            "in": "query",
+            "description": "Account's platform identifier (e.g AWS Account ID)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DatastoreDtoV2"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Datastores"
+        ]
+      }
+    },
+    "/v1/datastores/{uid}/classifications": {
+      "get": {
+        "operationId": "DatastoreController_findClassifications",
+        "parameters": [
+          {
+            "name": "uid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DatastoreClassificationDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Datastores"
+        ]
+      }
+    },
+    "/v1/datastores/{uid}/objects": {
+      "get": {
+        "operationId": "DatastoreController_findClassifiedDatastoreObjects",
+        "parameters": [
+          {
+            "name": "uid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 500)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 500,
+              "type": "number"
+            }
+          },
+          {
+            "name": "fileName",
+            "required": false,
+            "in": "query",
+            "description": "Search by text that contained inside the fileName or the relativePath",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "classificationUid",
+            "required": false,
+            "in": "query",
+            "description": "Search objects which contain the classificationUid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DatastoreObjectDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "DatastoreNotFoundException": {
+                    "description": "Datastore wasn't found",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Datastore wasn't found",
+                      "error": "Not Found"
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Datastore wasn't found"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "Datastores"
+        ]
+      }
+    },
+    "/v1/classifications": {
+      "get": {
+        "operationId": "ClassificationController_findAll",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "uids",
+            "required": false,
+            "in": "query",
+            "description": "Classification UIDs (delimited by comma separator ',')",
+            "schema": {
+              "format": "form",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ClassificationDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Classifications"
+        ]
+      }
+    },
+    "/v1/file/{uid}": {
+      "get": {
+        "operationId": "FileController_findFileByUid",
+        "parameters": [
+          {
+            "name": "uid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/FileEndpointDataDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "File"
+        ]
+      }
+    },
+    "/v1/table/{uid}": {
+      "get": {
+        "operationId": "TableController_findTableByUid",
+        "parameters": [
+          {
+            "name": "uid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/TableEndpointDataDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Table"
+        ]
+      }
+    },
+    "/v1/issues": {
+      "get": {
+        "operationId": "IssueController_findAll",
+        "summary": "This endpoint is deprecated. Please use v2/issues endpoint instead in which issue status management is updated",
+        "deprecated": true,
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "datastoreUid",
+            "required": false,
+            "in": "query",
+            "description": "Related Datastore UID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdDate",
+            "required": false,
+            "in": "query",
+            "description": "Issue's creation time (equals to, or later than)",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedDate",
+            "required": false,
+            "in": "query",
+            "description": "Issue's last update time (equals to, or later than)",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "name": "severity",
+            "required": false,
+            "in": "query",
+            "description": "Issue's Severity",
+            "schema": {
+              "enum": [
+                "Critical",
+                "High",
+                "Medium",
+                "Low"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Issue Status",
+            "schema": {
+              "enum": [
+                "Open",
+                "Ignored"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/IssueDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ]
+      }
+    },
+    "/v2/issues": {
+      "get": {
+        "operationId": "IssueController_findAllV2",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "datastoreUid",
+            "required": false,
+            "in": "query",
+            "description": "Related Datastore UID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdDate",
+            "required": false,
+            "in": "query",
+            "description": "Issue's creation time (equals to, or later than)",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedDate",
+            "required": false,
+            "in": "query",
+            "description": "Issue's last update time (equals to, or later than)",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "name": "severity",
+            "required": false,
+            "in": "query",
+            "description": "Issue's Severity",
+            "schema": {
+              "enum": [
+                "Critical",
+                "High",
+                "Medium",
+                "Low"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Issue Status",
+            "schema": {
+              "enum": [
+                "Open",
+                "InProgress",
+                "Closed"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/IssueDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ]
+      }
+    },
+    "/v1/issues/{uid}/classifications": {
+      "get": {
+        "operationId": "IssueController_findClassifications",
+        "parameters": [
+          {
+            "name": "uid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/IssueClassificationDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ]
+      }
+    },
+    "/v1/issues/{uid}/objects": {
+      "get": {
+        "operationId": "IssueController_findObjects",
+        "parameters": [
+          {
+            "name": "uid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "description": "Limit the number of results (Min: 1, Max: 500)",
+            "example": 10,
+            "schema": {
+              "minimum": 1,
+              "maximum": 500,
+              "type": "number"
+            }
+          },
+          {
+            "name": "fileName",
+            "required": false,
+            "in": "query",
+            "description": "Search by text that contained inside the fileName or the relativePath",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "classificationUid",
+            "required": false,
+            "in": "query",
+            "description": "Search objects which contain the classificationUid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/MediumLimitPaginationQueryDto"
+                    },
+                    {
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/IssueObjectDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "IssueNotFoundException": {
+                    "description": "Issue wasn't found",
+                    "value": {
+                      "statusCode": 404,
+                      "message": "Issue wasn't found",
+                      "error": "Not Found"
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Issue wasn't found"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "tags": [
+          "Issues"
+        ]
+      }
+    },
+    "/v1/webhooks/subscribe": {
+      "post": {
+        "operationId": "WebhookController_subscribe",
+        "summary": "You can look at the payload of the events, below, under the schemas part, it is named `WebhookPayloadDto`",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscribeEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Webhooks"
+        ]
+      }
+    },
+    "/v1/webhooks/unsubscribe": {
+      "delete": {
+        "operationId": "WebhookController_unsubscribe",
+        "parameters": [
+          {
+            "name": "uid",
+            "required": true,
+            "in": "query",
+            "description": "Webhook ID",
+            "example": "31d0b518-425b-48d6-805f-e43488a9fa02",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Webhooks"
+        ]
+      }
+    },
+    "/v1/webhooks/list-subscriptions": {
+      "get": {
+        "operationId": "WebhookController_listSubscriptions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriptionDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Webhooks"
+        ]
+      }
+    },
+    "/ready": {
+      "get": {
+        "operationId": "StatusProbeManagerHttpController_ready",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "StatusProbeManagerHttpController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Cyera API",
+    "description": "Cyera's External API",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "JWT Bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "description": "Insert here your authentication bearer, generated by one of our token generation endpoints"
+      }
+    },
+    "schemas": {
+      "LoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "string",
+            "description": "JWT Token",
+            "example": "eyJhbG......"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh Token",
+            "example": "7ea3ad06-a1ef-45ca-9d2e-ff56b434ebb1"
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Expiration time in miliseconds",
+            "example": 86400
+          },
+          "expires": {
+            "type": "number",
+            "description": "Expiration time in Date",
+            "example": "Thu, 02 Feb 2023 00:00:00 GMT"
+          }
+        },
+        "required": [
+          "jwt",
+          "refreshToken",
+          "expiresIn",
+          "expires"
+        ]
+      },
+      "LoginBodyDto": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "description": "API Key",
+            "example": "5eaf2f6a-538e-482a-af7f-307f3bdce382"
+          },
+          "secret": {
+            "type": "string",
+            "description": "API Secret",
+            "example": "e38797d4-ccc8-4874-afa3-ee1c194dffb8"
+          }
+        },
+        "required": [
+          "clientId",
+          "secret"
+        ]
+      },
+      "PaginationResponseDto": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "description": "Limit the number of results (Min: 1, Max: 100)",
+            "example": 10,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "offset": {
+            "type": "number",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "minimum": 0
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of results",
+            "example": 1,
+            "minimum": 0
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 0
+            }
+          }
+        },
+        "required": [
+          "limit",
+          "offset",
+          "total",
+          "results"
+        ]
+      },
+      "AccountSummaryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Account name as provided to Cyera"
+          },
+          "inPlatformIdentifier": {
+            "type": "string",
+            "description": "Account's platform identifier (e.g AWS Account ID)"
+          }
+        },
+        "required": [
+          "name",
+          "inPlatformIdentifier"
+        ]
+      },
+      "CloudProviderTag": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Cloud Provider Tag Key"
+          },
+          "value": {
+            "type": "string",
+            "description": "Cloud Provider Tag Value"
+          }
+        },
+        "required": [
+          "key"
+        ]
+      },
+      "RecordCountBySensitivityDto": {
+        "type": "object",
+        "properties": {
+          "Very Sensitive": {
+            "type": "number"
+          },
+          "Sensitive": {
+            "type": "number"
+          },
+          "Internal": {
+            "type": "number"
+          },
+          "Not Sensitive": {
+            "type": "number"
+          },
+          "Unclassified": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "Very Sensitive",
+          "Sensitive",
+          "Internal",
+          "Not Sensitive",
+          "Unclassified"
+        ]
+      },
+      "DatastoreIssuesDto": {
+        "type": "object",
+        "properties": {
+          "open": {
+            "type": "number",
+            "description": "Open Issues Count"
+          },
+          "resolved": {
+            "type": "number",
+            "description": "Resolved Issues Count"
+          },
+          "ignored": {
+            "type": "number",
+            "description": "Ignored Issues Count"
+          }
+        },
+        "required": [
+          "open",
+          "resolved",
+          "ignored"
+        ]
+      },
+      "DatastoreDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Datastore UID",
+            "example": "379661c3-ad91-4691-ab58-8704ff5f6a9e"
+          },
+          "name": {
+            "type": "string",
+            "description": "Datastore name",
+            "example": "users-bucket"
+          },
+          "discoveredDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when discovered by Cyera"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "AWS",
+              "Azure",
+              "GCP",
+              "Snowflake",
+              "Microsoft365",
+              "Atlas",
+              "Salesforce",
+              "Box",
+              "Google Workspace",
+              "Oracle Cloud",
+              "Mongo Atlas",
+              "Databricks",
+              "Dropbox",
+              "Jira",
+              "Github",
+              "Workday",
+              "On Premise"
+            ],
+            "description": "Cloud Provider",
+            "example": "AWS"
+          },
+          "infrastructure": {
+            "type": "string",
+            "enum": [
+              "ec2",
+              "rds",
+              "s3",
+              "elastic-cache",
+              "dynamo-db",
+              "bigquery",
+              "gcp-storage",
+              "google-drive",
+              "azure-sql-database",
+              "azure-blob-storage",
+              "azure-file-share",
+              "azure-sql-managed-instance",
+              "Cloud SQL",
+              "azure-vm-sql",
+              "azure-database-server",
+              "redshift",
+              "OneDrive",
+              "snowflake",
+              "atlas-cluster",
+              "azure-vm",
+              "OpenSearch",
+              "databricks",
+              "cosmos-db"
+            ],
+            "description": "Infrastructure",
+            "example": "s3"
+          },
+          "engine": {
+            "type": "string",
+            "description": "Engine",
+            "example": "s3"
+          },
+          "cloudProviderUrl": {
+            "type": "string",
+            "description": "Cloud Provider URL",
+            "example": "https://s3.console.aws.amazon.com/s3/buckets/users-bucket?region=us-east-1&tab=objects"
+          },
+          "scanningState": {
+            "type": "string",
+            "enum": [
+              "InProgress",
+              "Scanned",
+              "NotScanned",
+              "Ignored"
+            ],
+            "description": "Scanning State"
+          },
+          "ghost": {
+            "type": "boolean",
+            "description": "Ghost Datastore"
+          },
+          "regions": {
+            "description": "Regions",
+            "example": [
+              "us-east-1",
+              "us-east-2"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "vpc": {
+            "type": "string",
+            "description": "Virtual Private Network",
+            "nullable": true
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner's email",
+            "nullable": true,
+            "example": "some@admin.com"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity based on existing data within the datastore",
+            "example": "VerySensitive"
+          },
+          "recordCountBySensitivity": {
+            "description": "Record count by sensitivity",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordCountBySensitivityDto"
+              }
+            ]
+          },
+          "account": {
+            "description": "Cloud Provider Account",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountSummaryDto"
+              }
+            ]
+          },
+          "classificationGroups": {
+            "type": "array",
+            "description": "Classification Groups derived from all classifications that exist within this datastore",
+            "example": [
+              "Personal",
+              "Health",
+              "Financial",
+              "IT & Security",
+              "Business & IP"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "Personal",
+                "Health",
+                "Financial",
+                "IT & Security",
+                "Business & IP"
+              ]
+            }
+          },
+          "issues": {
+            "description": "Datastore's issues breakdown",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DatastoreIssuesDto"
+              }
+            ]
+          },
+          "cloudProviderTags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CloudProviderTag"
+            },
+            "description": "Cloud Provider Tags",
+            "example": [
+              {
+                "key": "env",
+                "value": "prod"
+              },
+              {
+                "key": "business-owner",
+                "value": "some@admin.com"
+              }
+            ]
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "discoveredDate",
+          "provider",
+          "infrastructure",
+          "engine",
+          "cloudProviderUrl",
+          "scanningState",
+          "ghost",
+          "regions",
+          "sensitivity",
+          "recordCountBySensitivity",
+          "account",
+          "classificationGroups",
+          "issues",
+          "cloudProviderTags"
+        ]
+      },
+      "DatastoreIssuesDtoV2": {
+        "type": "object",
+        "properties": {
+          "open": {
+            "type": "number",
+            "description": "Open Issues Count"
+          },
+          "closed": {
+            "type": "number",
+            "description": "Closed Issues Count"
+          },
+          "inProgress": {
+            "type": "number",
+            "description": "In Progress Issues Count"
+          }
+        },
+        "required": [
+          "open",
+          "closed",
+          "inProgress"
+        ]
+      },
+      "DatastoreDtoV2": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Datastore UID",
+            "example": "379661c3-ad91-4691-ab58-8704ff5f6a9e"
+          },
+          "name": {
+            "type": "string",
+            "description": "Datastore name",
+            "example": "users-bucket"
+          },
+          "discoveredDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when discovered by Cyera"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "AWS",
+              "Azure",
+              "GCP",
+              "Snowflake",
+              "Microsoft365",
+              "Atlas",
+              "Salesforce",
+              "Box",
+              "Google Workspace",
+              "Oracle Cloud",
+              "Mongo Atlas",
+              "Databricks",
+              "Dropbox",
+              "Jira",
+              "Github",
+              "Workday",
+              "On Premise"
+            ],
+            "description": "Cloud Provider",
+            "example": "AWS"
+          },
+          "infrastructure": {
+            "type": "string",
+            "enum": [
+              "ec2",
+              "rds",
+              "s3",
+              "elastic-cache",
+              "dynamo-db",
+              "bigquery",
+              "gcp-storage",
+              "google-drive",
+              "azure-sql-database",
+              "azure-blob-storage",
+              "azure-file-share",
+              "azure-sql-managed-instance",
+              "Cloud SQL",
+              "azure-vm-sql",
+              "azure-database-server",
+              "redshift",
+              "OneDrive",
+              "snowflake",
+              "atlas-cluster",
+              "azure-vm",
+              "OpenSearch",
+              "databricks",
+              "cosmos-db"
+            ],
+            "description": "Infrastructure",
+            "example": "s3"
+          },
+          "engine": {
+            "type": "string",
+            "description": "Engine",
+            "example": "s3"
+          },
+          "cloudProviderUrl": {
+            "type": "string",
+            "description": "Cloud Provider URL",
+            "example": "https://s3.console.aws.amazon.com/s3/buckets/users-bucket?region=us-east-1&tab=objects"
+          },
+          "scanningState": {
+            "type": "string",
+            "enum": [
+              "Scanned",
+              "Scanning",
+              "Scanning - Initial Results",
+              "Unmonitored",
+              "Not Supported",
+              "Pending"
+            ],
+            "description": "Scanning State",
+            "nullable": true
+          },
+          "ghost": {
+            "type": "boolean",
+            "description": "Ghost Datastore"
+          },
+          "regions": {
+            "description": "Regions",
+            "example": [
+              "us-east-1",
+              "us-east-2"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "vpc": {
+            "type": "string",
+            "description": "Virtual Private Network",
+            "nullable": true
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner's email",
+            "nullable": true,
+            "example": "some@admin.com"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity based on existing data within the datastore",
+            "example": "VerySensitive"
+          },
+          "recordCountBySensitivity": {
+            "description": "Record count by sensitivity",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordCountBySensitivityDto"
+              }
+            ]
+          },
+          "account": {
+            "description": "Cloud Provider Account",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountSummaryDto"
+              }
+            ]
+          },
+          "classificationGroups": {
+            "type": "array",
+            "description": "Classification Groups derived from all classifications that exist within this datastore",
+            "example": [
+              "Personal",
+              "Health",
+              "Financial",
+              "IT & Security",
+              "Business & IP"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "Personal",
+                "Health",
+                "Financial",
+                "IT & Security",
+                "Business & IP"
+              ]
+            }
+          },
+          "issues": {
+            "description": "Datastore's issues breakdown",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DatastoreIssuesDtoV2"
+              }
+            ]
+          },
+          "cloudProviderTags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CloudProviderTag"
+            },
+            "description": "Cloud Provider Tags",
+            "example": [
+              {
+                "key": "env",
+                "value": "prod"
+              },
+              {
+                "key": "business-owner",
+                "value": "some@admin.com"
+              }
+            ]
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "discoveredDate",
+          "provider",
+          "infrastructure",
+          "engine",
+          "cloudProviderUrl",
+          "scanningState",
+          "ghost",
+          "regions",
+          "sensitivity",
+          "recordCountBySensitivity",
+          "account",
+          "classificationGroups",
+          "issues",
+          "cloudProviderTags"
+        ]
+      },
+      "ClassificationContextDto": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Role",
+            "example": [
+              "Customer",
+              "Patient",
+              "Employee"
+            ]
+          },
+          "tokenization": {
+            "type": "string",
+            "enum": [
+              "Dynamically-Masked",
+              "Encoded",
+              "Encrypted",
+              "Hashed",
+              "Masked",
+              "Plain",
+              "Tokenized",
+              "Truncated"
+            ],
+            "description": "Tokenization"
+          },
+          "geoLocations": {
+            "description": "Residency",
+            "example": [
+              "EU",
+              "California",
+              "Brazil"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "synthetic": {
+            "type": "boolean",
+            "description": "Mock data"
+          }
+        },
+        "required": [
+          "role",
+          "tokenization",
+          "geoLocations",
+          "synthetic"
+        ]
+      },
+      "DatastoreClassificationDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Data Classification UID",
+            "example": "d0d033c7-5cca-48d2-a270-f6848443f4a6"
+          },
+          "name": {
+            "type": "string",
+            "description": "Data Classification Name",
+            "example": "Password"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity"
+          },
+          "context": {
+            "description": "Context",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ClassificationContextDto"
+              }
+            ]
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Creator",
+            "example": "Cyera"
+          },
+          "classificationGroup": {
+            "type": "string",
+            "enum": [
+              "Personal",
+              "Health",
+              "Financial",
+              "IT & Security",
+              "Business & IP"
+            ],
+            "description": "Data Category"
+          },
+          "recordCountInDatastore": {
+            "type": "number",
+            "description": "Record Count in Datastore",
+            "example": 1
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "sensitivity",
+          "context",
+          "createdBy",
+          "classificationGroup",
+          "recordCountInDatastore"
+        ]
+      },
+      "TableLevelClassificationDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Data Classification UID",
+            "example": "d0d033c7-5cca-48d2-a270-f6848443f4a6"
+          },
+          "classificationName": {
+            "type": "string",
+            "description": "Data Classification Name",
+            "example": "Payment Amount"
+          },
+          "defaultSensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Data Classification Default Sensitivity",
+            "example": "Sensitive"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity",
+            "example": "Sensitive"
+          }
+        },
+        "required": [
+          "uid",
+          "classificationName",
+          "defaultSensitivity",
+          "sensitivity"
+        ]
+      },
+      "TableClassificationDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Data Classification UID",
+            "example": "d0d033c7-5cca-48d2-a270-f6848443f4a6"
+          },
+          "classificationName": {
+            "type": "string",
+            "description": "Data Classification Name",
+            "example": "Payment Amount"
+          },
+          "defaultSensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Data Classification Default Sensitivity",
+            "example": "Sensitive"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity",
+            "example": "Sensitive"
+          },
+          "recordsCount": {
+            "type": "number",
+            "description": "Classification Record Count in the Object",
+            "example": 74928899
+          }
+        },
+        "required": [
+          "uid",
+          "classificationName",
+          "defaultSensitivity",
+          "sensitivity",
+          "recordsCount"
+        ]
+      },
+      "TableDetailsDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Table uid",
+            "example": "43cc6fc7-96ea-4f50-837b-5v8b0ecbl593"
+          },
+          "name": {
+            "type": "string",
+            "description": "Table name",
+            "example": "Servicing.DataWarehouse_History"
+          },
+          "rowCount": {
+            "type": "number",
+            "description": "Table row count",
+            "example": 12467730
+          },
+          "sensitiveRecordsCount": {
+            "type": "number",
+            "description": "Table sensitive record count",
+            "example": 163661377
+          },
+          "creationDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Table creation name",
+            "example": "2023-09-03T18:13:22.864Z"
+          },
+          "tableLevelClassifications": {
+            "description": "Table level classifications",
+            "example": [
+              {
+                "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                "classificationName": "Payment Amount",
+                "defaultSensitivity": "Sensitive",
+                "sensitivity": "Sensitive"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TableLevelClassificationDto"
+            }
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Table sensitivity",
+            "example": "VerySensitive"
+          },
+          "classifications": {
+            "description": "Table classifications",
+            "example": [
+              {
+                "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                "classificationName": "Payment Amount",
+                "defaultSensitivity": "Sensitive",
+                "sensitivity": "Sensitive",
+                "recordsCount": 12467730
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TableClassificationDto"
+            }
+          },
+          "dbName": {
+            "type": "string",
+            "description": "Table db name",
+            "example": "Company_Data_Warehouse"
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "rowCount",
+          "sensitiveRecordsCount",
+          "creationDate",
+          "tableLevelClassifications",
+          "sensitivity",
+          "classifications",
+          "dbName"
+        ]
+      },
+      "FileClassificationDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Data Classification UID",
+            "example": "d0d033c7-5cca-48d2-a270-f6848443f4a6"
+          },
+          "classificationName": {
+            "type": "string",
+            "description": "Data Classification Name",
+            "example": "Payment Amount"
+          },
+          "defaultSensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Data Classification Default Sensitivity",
+            "example": "Sensitive"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity",
+            "example": "Sensitive"
+          }
+        },
+        "required": [
+          "uid",
+          "classificationName",
+          "defaultSensitivity",
+          "sensitivity"
+        ]
+      },
+      "FileDetailsDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "File uid",
+            "example": "2990c454d9eb4b098d5777db6807676ffc4eb48088dd9f7e8d4847a5a49f50bc"
+          },
+          "fileName": {
+            "type": "string",
+            "description": "File name",
+            "example": "sample.csv"
+          },
+          "relativePath": {
+            "type": "string",
+            "description": "File relative path",
+            "example": "parquet_samples/sample.csv"
+          },
+          "fileType": {
+            "type": "string",
+            "description": "File type",
+            "example": "csv"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "File sensitivity",
+            "example": "VerySensitive"
+          },
+          "sensitiveRecordsCount": {
+            "type": "number",
+            "description": "File sensitive record count",
+            "example": 16
+          },
+          "storageSizeMib": {
+            "type": "number",
+            "description": "File storage size in Mib",
+            "example": 94.28648471832275
+          },
+          "url": {
+            "type": "string",
+            "description": "File url",
+            "example": "https://s3.console.aws.amazon.com/s3/object/cyera-test-bucket?region=us-east-2&prefix=parquet_samples/sample.csv"
+          },
+          "lastModified": {
+            "format": "date-time",
+            "type": "string",
+            "description": "File last modified date",
+            "example": "2022-11-05T12:51:08.000Z"
+          },
+          "lastAccessed": {
+            "format": "date-time",
+            "type": "string",
+            "description": "File last accessed date",
+            "example": "2023-09-04T06:53:43.419Z"
+          },
+          "creationDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "File creation date",
+            "example": "2022-11-05T12:51:08.000Z"
+          },
+          "isEncrypted": {
+            "type": "boolean",
+            "description": "Is file encrypted",
+            "example": true
+          },
+          "isPublic": {
+            "type": "boolean",
+            "description": "Is file public",
+            "example": true
+          },
+          "classifications": {
+            "description": "File classifications",
+            "example": [
+              {
+                "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                "classificationName": "Payment Amount",
+                "defaultSensitivity": "Sensitive",
+                "sensitivity": "Sensitive"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileClassificationDto"
+            }
+          }
+        },
+        "required": [
+          "uid",
+          "fileName",
+          "relativePath",
+          "fileType",
+          "sensitivity",
+          "sensitiveRecordsCount",
+          "storageSizeMib",
+          "url",
+          "lastModified",
+          "lastAccessed",
+          "creationDate",
+          "isEncrypted",
+          "isPublic",
+          "classifications"
+        ]
+      },
+      "DatastoreObjectDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "TABLES",
+              "FILES"
+            ],
+            "description": "Type of the objects",
+            "example": "TABLES"
+          },
+          "objects": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/TableDetailsDto"
+                },
+                {
+                  "$ref": "#/components/schemas/FileDetailsDto"
+                }
+              ]
+            },
+            "description": "Datastore's Objects. Either a list of tables or a list of files based on the field 'type'",
+            "example": [
+              {
+                "uid": "19b88597c4cc890461dd9d4b9f469e3524ce0ea66b791b823bb8bc601a1fa123",
+                "name": "Servicing.DataWarehouse_History",
+                "rowCount": 12467730,
+                "sensitiveRecordsCount": 163661377,
+                "dbName": "Data_Warehouse",
+                "creationDate": "2023-09-03T18:13:22.864Z",
+                "tableLevelClassifications": [
+                  {
+                    "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                    "classificationName": "Payment Amount",
+                    "defaultSensitivity": "Sensitive",
+                    "sensitivity": "Sensitive"
+                  }
+                ],
+                "sensitivity": "VerySensitive",
+                "classifications": [
+                  {
+                    "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                    "classificationName": "Payment Amount",
+                    "defaultSensitivity": "Sensitive",
+                    "sensitivity": "Sensitive",
+                    "recordsCount": 12467730
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "objects"
+        ]
+      },
+      "ClassificationDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Data Classification UID",
+            "example": "d0d033c7-5cca-48d2-a270-f6848443f4a6"
+          },
+          "name": {
+            "type": "string",
+            "description": "Data Classification Name",
+            "example": "Password"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity"
+          },
+          "context": {
+            "description": "Context",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ClassificationContextDto"
+              }
+            ]
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Creator",
+            "example": "Cyera"
+          },
+          "classificationGroup": {
+            "type": "string",
+            "enum": [
+              "Personal",
+              "Health",
+              "Financial",
+              "IT & Security",
+              "Business & IP"
+            ],
+            "description": "Data Category"
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "sensitivity",
+          "context",
+          "createdBy",
+          "classificationGroup"
+        ]
+      },
+      "ColumnClassificationContextDto": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Role",
+            "example": [
+              "Customer",
+              "Patient",
+              "Employee"
+            ]
+          },
+          "tokenization": {
+            "type": "string",
+            "enum": [
+              "Dynamically-Masked",
+              "Encoded",
+              "Encrypted",
+              "Hashed",
+              "Masked",
+              "Plain",
+              "Tokenized",
+              "Truncated"
+            ],
+            "description": "Tokenization"
+          },
+          "geoLocations": {
+            "description": "Residency",
+            "example": [
+              "EU",
+              "California",
+              "Brazil"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "synthetic": {
+            "type": "boolean",
+            "description": "Mock data"
+          },
+          "identified": {
+            "type": "boolean",
+            "description": "Is the data uniquely identifies the individual it belongs to."
+          },
+          "identifiability": {
+            "type": "string",
+            "enum": [
+              "Identifier",
+              "PossiblyIdentifiable",
+              "None"
+            ],
+            "description": "Indicates whether the data class can uniquely identify individuals."
+          }
+        },
+        "required": [
+          "role",
+          "tokenization",
+          "geoLocations",
+          "synthetic",
+          "identified",
+          "identifiability"
+        ]
+      },
+      "ColumnClassificationDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Classification uid",
+            "example": "2990c454d9eb4b098d5777db6807676ffc4eb48088dd9f7e8d4847a5a49f50bc"
+          },
+          "name": {
+            "type": "string",
+            "description": "Classification name",
+            "example": "Full Name"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity"
+          },
+          "recordsCount": {
+            "type": "number",
+            "description": "Amount of records classified with this classification",
+            "example": 20
+          },
+          "context": {
+            "description": "The context of the column classification",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ColumnClassificationContextDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "sensitivity",
+          "recordsCount",
+          "context"
+        ]
+      },
+      "ColumnDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Column uid",
+            "example": "2990c454d9eb4b098d5777db6807676ffc4eb48088dd9f7e8d4847a5a49f50bc"
+          },
+          "name": {
+            "type": "string",
+            "description": "Column name",
+            "example": "full name"
+          },
+          "classifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ColumnClassificationDto"
+            },
+            "description": "Classifications of the column",
+            "example": [
+              {
+                "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                "name": "Payment Amount",
+                "sensitivity": "Sensitive",
+                "recordsCount": 20,
+                "context": {
+                  "role": "Customer",
+                  "tokenization": "Hashed",
+                  "geoLocations": [
+                    "EU",
+                    "California",
+                    "Brazil"
+                  ],
+                  "synthetic": false,
+                  "identified": false,
+                  "identifiability": "None"
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "classifications"
+        ]
+      },
+      "FileEndpointDataDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "File uid",
+            "example": "2990c454d9eb4b098d5777db6807676ffc4eb48088dd9f7e8d4847a5a49f50bc"
+          },
+          "fileName": {
+            "type": "string",
+            "description": "File name",
+            "example": "sample.csv"
+          },
+          "relativePath": {
+            "type": "string",
+            "description": "File relative path",
+            "example": "parquet_samples/sample.csv"
+          },
+          "fileType": {
+            "type": "string",
+            "description": "File type",
+            "example": "csv"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "File sensitivity",
+            "example": "VerySensitive"
+          },
+          "sensitiveRecordsCount": {
+            "type": "number",
+            "description": "File sensitive record count",
+            "example": 16
+          },
+          "storageSizeMib": {
+            "type": "number",
+            "description": "File storage size in Mib",
+            "example": 94.28648471832275
+          },
+          "url": {
+            "type": "string",
+            "description": "File url",
+            "example": "https://s3.console.aws.amazon.com/s3/object/cyera-test-bucket?region=us-east-2&prefix=parquet_samples/sample.csv"
+          },
+          "lastModified": {
+            "format": "date-time",
+            "type": "string",
+            "description": "File last modified date",
+            "example": "2022-11-05T12:51:08.000Z"
+          },
+          "lastAccessed": {
+            "format": "date-time",
+            "type": "string",
+            "description": "File last accessed date",
+            "example": "2023-09-04T06:53:43.419Z"
+          },
+          "creationDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "File creation date",
+            "example": "2022-11-05T12:51:08.000Z"
+          },
+          "isEncrypted": {
+            "type": "boolean",
+            "description": "Is file encrypted",
+            "example": true
+          },
+          "isPublic": {
+            "type": "boolean",
+            "description": "Is file public",
+            "example": true
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ColumnDto"
+            },
+            "description": "Column Object for file endpoint",
+            "example": [
+              {
+                "uid": "f8i47gi4uy5g",
+                "name": "first name",
+                "classifications": [
+                  {
+                    "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                    "name": "Payment Amount",
+                    "sensitivity": "Sensitive",
+                    "recordsCount": 20,
+                    "context": {
+                      "role": "Customer",
+                      "tokenization": "Hashed",
+                      "geoLocations": [
+                        "EU",
+                        "California",
+                        "Brazil"
+                      ],
+                      "synthetic": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "fileLevelClassifications": {
+            "items": {
+              "type": "array"
+            },
+            "description": "File level classifications",
+            "example": [
+              {
+                "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                "classificationName": "Payment Amount",
+                "defaultSensitivity": "Sensitive",
+                "sensitivity": "Sensitive"
+              }
+            ],
+            "type": "array"
+          }
+        },
+        "required": [
+          "uid",
+          "fileName",
+          "relativePath",
+          "fileType",
+          "sensitivity",
+          "sensitiveRecordsCount",
+          "storageSizeMib",
+          "url",
+          "lastModified",
+          "lastAccessed",
+          "creationDate",
+          "isEncrypted",
+          "isPublic",
+          "columns",
+          "fileLevelClassifications"
+        ]
+      },
+      "TableColumnDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Column uid",
+            "example": "2990c454d9eb4b098d5777db6807676ffc4eb48088dd9f7e8d4847a5a49f50bc"
+          },
+          "name": {
+            "type": "string",
+            "description": "Column name",
+            "example": "full name"
+          },
+          "classifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ColumnClassificationDto"
+            },
+            "description": "Classifications of the column",
+            "example": [
+              {
+                "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                "name": "Payment Amount",
+                "sensitivity": "Sensitive",
+                "recordsCount": 20,
+                "context": {
+                  "role": "Customer",
+                  "tokenization": "Hashed",
+                  "geoLocations": [
+                    "EU",
+                    "California",
+                    "Brazil"
+                  ],
+                  "synthetic": false,
+                  "identified": false,
+                  "identifiability": "None"
+                }
+              }
+            ]
+          },
+          "recordsCount": {
+            "type": "number",
+            "description": "Records count",
+            "example": 25
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "classifications",
+          "recordsCount"
+        ]
+      },
+      "TableEndpointDataDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Table uid",
+            "example": "43cc6fc7-96ea-4f50-837b-5v8b0ecbl593"
+          },
+          "name": {
+            "type": "string",
+            "description": "Table name",
+            "example": "Servicing.DataWarehouse_History"
+          },
+          "rowCount": {
+            "type": "number",
+            "description": "Table row count",
+            "example": 12467730
+          },
+          "sensitiveRecordsCount": {
+            "type": "number",
+            "description": "Table sensitive record count",
+            "example": 163661377
+          },
+          "creationDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Table creation name",
+            "example": "2023-09-03T18:13:22.864Z"
+          },
+          "tableLevelClassifications": {
+            "description": "Table level classifications",
+            "example": [
+              {
+                "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                "classificationName": "Payment Amount",
+                "defaultSensitivity": "Sensitive",
+                "sensitivity": "Sensitive"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TableLevelClassificationDto"
+            }
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Table sensitivity",
+            "example": "VerySensitive"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TableColumnDto"
+            },
+            "description": "Column Object for table endpoint",
+            "example": [
+              {
+                "uid": "f8i47gi4uy5g",
+                "name": "first name",
+                "classifications": [
+                  {
+                    "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                    "name": "Payment Amount",
+                    "sensitivity": "Sensitive",
+                    "recordsCount": 20,
+                    "context": {
+                      "role": "Customer",
+                      "tokenization": "Hashed",
+                      "geoLocations": [
+                        "EU",
+                        "California",
+                        "Brazil"
+                      ],
+                      "synthetic": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "lastModifiedTime": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last modified date",
+            "example": "2023-09-03T18:13:22.864Z"
+          },
+          "dbName": {
+            "type": "string",
+            "description": "Table db name",
+            "example": "Company_Data_Warehouse"
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "rowCount",
+          "sensitiveRecordsCount",
+          "creationDate",
+          "tableLevelClassifications",
+          "sensitivity",
+          "columns",
+          "lastModifiedTime",
+          "dbName"
+        ]
+      },
+      "IssueRiskDto": {
+        "type": "object",
+        "properties": {
+          "policyUid": {
+            "type": "string",
+            "description": "Policy UID"
+          },
+          "riskType": {
+            "type": "string",
+            "enum": [
+              "Public Exposure",
+              "Encryption",
+              "Logging",
+              "Backup",
+              "Data Dispersion",
+              "Access"
+            ],
+            "description": "Category of Risk"
+          },
+          "frameworks": {
+            "type": "array",
+            "description": "Policy Frameworks",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CCPA",
+                "CIS",
+                "PCI DSS",
+                "HIPAA",
+                "GDPR",
+                "NIST",
+                "Security Basics",
+                "Custom",
+                "GLBA",
+                "LGPD",
+                "PHIPA",
+                "PIPEDA",
+                "SOC2",
+                "ISO27001"
+              ]
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Policy Description"
+          }
+        },
+        "required": [
+          "policyUid",
+          "riskType",
+          "frameworks",
+          "description"
+        ]
+      },
+      "IssueDataDto": {
+        "type": "object",
+        "properties": {
+          "recordsAtRisk": {
+            "type": "number",
+            "description": "Number of records at risk",
+            "example": 1
+          },
+          "dataClassesUids": {
+            "description": "Classifications UIDs",
+            "example": [
+              "d0d033c7-5cca-48d2-a270-f6848443f4a6"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "recordsAtRisk",
+          "dataClassesUids"
+        ]
+      },
+      "IssueDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "AWS",
+              "Azure",
+              "GCP",
+              "Snowflake",
+              "Microsoft365",
+              "Atlas",
+              "Salesforce",
+              "Box",
+              "Google Workspace",
+              "Oracle Cloud",
+              "Mongo Atlas",
+              "Databricks",
+              "Dropbox",
+              "Jira",
+              "Github",
+              "Workday",
+              "On Premise"
+            ],
+            "description": "Cloud Provider",
+            "example": "AWS"
+          },
+          "infrastructure": {
+            "type": "string",
+            "enum": [
+              "ec2",
+              "rds",
+              "s3",
+              "elastic-cache",
+              "dynamo-db",
+              "bigquery",
+              "gcp-storage",
+              "google-drive",
+              "azure-sql-database",
+              "azure-blob-storage",
+              "azure-file-share",
+              "azure-sql-managed-instance",
+              "Cloud SQL",
+              "azure-vm-sql",
+              "azure-database-server",
+              "redshift",
+              "OneDrive",
+              "snowflake",
+              "atlas-cluster",
+              "azure-vm",
+              "OpenSearch",
+              "databricks",
+              "cosmos-db"
+            ],
+            "description": "Infrastructure",
+            "example": "s3"
+          },
+          "engine": {
+            "type": "string",
+            "description": "Engine",
+            "example": "s3"
+          },
+          "regions": {
+            "description": "Regions",
+            "example": [
+              "us-east-1",
+              "us-east-2"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "account": {
+            "description": "Cloud Provider Account",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountSummaryDto"
+              }
+            ]
+          },
+          "classificationGroups": {
+            "type": "array",
+            "description": "Classification Groups derived from all classifications that exist within this datastore",
+            "example": [
+              "Personal",
+              "Health",
+              "Financial",
+              "IT & Security",
+              "Business & IP"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "Personal",
+                "Health",
+                "Financial",
+                "IT & Security",
+                "Business & IP"
+              ]
+            }
+          },
+          "uid": {
+            "type": "string",
+            "description": "Issue UID",
+            "example": "753c0095-7a62-48ef-9e3c-1ddcc2261394"
+          },
+          "name": {
+            "type": "string",
+            "description": "Issue Name",
+            "example": "Sensitive Data in Public S3 Bucket"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "Critical",
+              "High",
+              "Medium",
+              "Low"
+            ],
+            "description": "Severity"
+          },
+          "createdDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when issue was created"
+          },
+          "updatedDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when issue was last updated"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Open",
+              "Ignored"
+            ],
+            "description": "Issue Status"
+          },
+          "datastoreName": {
+            "type": "string",
+            "description": "Datastore Name",
+            "example": "users-bucket"
+          },
+          "datastoreUid": {
+            "type": "string",
+            "description": "Datastore UID",
+            "example": "379661c3-ad91-4691-ab58-8704ff5f6a9e"
+          },
+          "risk": {
+            "description": "Risk",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IssueRiskDto"
+              }
+            ]
+          },
+          "data": {
+            "description": "Data",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IssueDataDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "provider",
+          "infrastructure",
+          "engine",
+          "regions",
+          "account",
+          "classificationGroups",
+          "uid",
+          "name",
+          "severity",
+          "createdDate",
+          "updatedDate",
+          "status",
+          "datastoreName",
+          "datastoreUid",
+          "risk",
+          "data"
+        ]
+      },
+      "IssueClassificationDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Data Classification UID",
+            "example": "d0d033c7-5cca-48d2-a270-f6848443f4a6"
+          },
+          "name": {
+            "type": "string",
+            "description": "Data Classification Name",
+            "example": "Password"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "VerySensitive",
+              "Sensitive",
+              "Internal",
+              "NotSensitive",
+              "Unclassified"
+            ],
+            "description": "Sensitivity"
+          },
+          "context": {
+            "description": "Context",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ClassificationContextDto"
+              }
+            ]
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "Creator",
+            "example": "Cyera"
+          },
+          "classificationGroup": {
+            "type": "string",
+            "enum": [
+              "Personal",
+              "Health",
+              "Financial",
+              "IT & Security",
+              "Business & IP"
+            ],
+            "description": "Data Category"
+          },
+          "recordCountInIssue": {
+            "type": "number",
+            "description": "Record Count in Issue",
+            "example": 1
+          }
+        },
+        "required": [
+          "uid",
+          "name",
+          "sensitivity",
+          "context",
+          "createdBy",
+          "classificationGroup",
+          "recordCountInIssue"
+        ]
+      },
+      "MediumLimitPaginationQueryDto": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "number",
+            "description": "Offset within total existing results (Min: 0)",
+            "example": 0,
+            "minimum": 0
+          },
+          "limit": {
+            "type": "number",
+            "description": "Limit the number of results (Min: 1, Max: 500)",
+            "example": 10,
+            "minimum": 1,
+            "maximum": 500
+          }
+        },
+        "required": [
+          "offset",
+          "limit"
+        ]
+      },
+      "IssueObjectDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "TABLES",
+              "FILES"
+            ],
+            "description": "Type of the objects",
+            "example": "TABLES"
+          },
+          "objects": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/TableDetailsDto"
+                },
+                {
+                  "$ref": "#/components/schemas/FileDetailsDto"
+                }
+              ]
+            },
+            "description": "Issue's Objects. Either a list of tables or a list of files based on the field 'type'",
+            "example": [
+              {
+                "uid": "19b88597c4cc890461dd9d4b9f469e3524ce0ea66b791b823bb8bc601a1fa123",
+                "name": "Servicing.DataWarehouse_History",
+                "rowCount": 12467730,
+                "sensitiveRecordsCount": 163661377,
+                "dbName": "Data_Warehouse",
+                "creationDate": "2023-09-03T18:13:22.864Z",
+                "tableLevelClassifications": [
+                  {
+                    "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                    "classificationName": "Payment Amount",
+                    "defaultSensitivity": "Sensitive",
+                    "sensitivity": "Sensitive"
+                  }
+                ],
+                "sensitivity": "VerySensitive",
+                "classifications": [
+                  {
+                    "uid": "3b4d83a8-1fe3-498d-b3d6-8cb15feceabc",
+                    "classificationName": "Payment Amount",
+                    "defaultSensitivity": "Sensitive",
+                    "sensitivity": "Sensitive",
+                    "recordsCount": 12467730
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "objects"
+        ]
+      },
+      "WebhookPayloadDto": {
+        "type": "object",
+        "properties": {
+          "eventName": {
+            "type": "string",
+            "enum": [
+              "issue.created",
+              "issue.changed.status"
+            ],
+            "description": "Event name",
+            "example": "issue.created"
+          },
+          "eventUID": {
+            "type": "string",
+            "description": "Feed event uid",
+            "example": "54ac86d5-0c22-485e-953c-3a36ce69dal3"
+          },
+          "title": {
+            "type": "string",
+            "description": "Event title",
+            "example": "New Issue"
+          },
+          "description": {
+            "type": "string",
+            "description": "Event description",
+            "example": "New Issue has been created"
+          },
+          "data": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/IssueDto"
+                }
+              ]
+            },
+            "description": "Event data",
+            "example": {
+              "uid": "c84fe8b9-3c76-407h-9199-0e99e0d73046",
+              "name": "My new policy",
+              "severity": "Critical",
+              "createdDate": "2023-11-01T08:25:12.870Z",
+              "datastoreName": "database-2",
+              "datastoreUid": "d4d59b493a9cc0b815e5caafd2fb86532f6a7ceeb296abf36e20193a0966b46c",
+              "provider": "AWS",
+              "infrastructure": "rds",
+              "engine": "mysql",
+              "classificationGroups": [],
+              "regions": [
+                "us-east-1"
+              ],
+              "datastoreOwner": null,
+              "risk": {
+                "policyUid": "1e96729a-8242-4dfa-81bc-c72d6bba028r",
+                "riskType": "Public Exposure",
+                "frameworks": [
+                  "CCPA"
+                ],
+                "description": "bla bla"
+              },
+              "data": {
+                "recordsAtRisk": 0,
+                "dataClassesUids": []
+              },
+              "account": {
+                "name": "playground-scanned",
+                "inPlatformIdentifier": "69004192523f"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/IssueDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "eventName",
+          "eventUID",
+          "title",
+          "description",
+          "data"
+        ]
+      },
+      "SubscribeEventDto": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "Webhook Name",
+            "example": "My Slack Integration 5"
+          },
+          "events": {
+            "type": "array",
+            "description": "Events to subscribe to",
+            "items": {
+              "type": "string",
+              "enum": [
+                "issue.created",
+                "issue.changed.status"
+              ]
+            }
+          },
+          "targetUrl": {
+            "type": "string",
+            "description": "Target URL, which the webhook will post the payload to (must be https)",
+            "example": "https://webhook.site/b0338c63-e8b5-4f8f-97c1-cbbbfce26e6f"
+          },
+          "secret": {
+            "type": "string",
+            "description": "Secret (optional) - for ensuring the authenticity of the webhook's origin",
+            "example": "secret-123"
+          }
+        },
+        "required": [
+          "displayName",
+          "events",
+          "targetUrl"
+        ]
+      },
+      "SubscriptionDto": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Webhook ID",
+            "example": "31d0b518-425b-48d6-805f-e43488a9fa02"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Is the webhook currently active",
+            "example": true
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Webhook Name",
+            "example": "My Slack Integration 5"
+          },
+          "targetUrl": {
+            "type": "string",
+            "description": "Webhook URL",
+            "example": "https://webhook-server.com"
+          },
+          "secret": {
+            "type": "string",
+            "description": "Secret (optional) - for ensuring the authenticity of the webhook's origin",
+            "example": "secret-123"
+          },
+          "events": {
+            "type": "array",
+            "description": "List of events that belong to the webhook",
+            "items": {
+              "type": "string",
+              "enum": [
+                "issue.created",
+                "issue.changed.status"
+              ]
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date when webhook was created"
+          }
+        },
+        "required": [
+          "uid",
+          "isActive",
+          "displayName",
+          "targetUrl",
+          "secret",
+          "events",
+          "createdAt"
+        ]
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Download Schema (OpenAPI)",
+    "url": "/assets/open-api.json"
+  },
+  "security": [
+    {
+      "JWT Bearer": []
+    }
+  ]
+}
