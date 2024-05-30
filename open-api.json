@@ -25,6 +25,16 @@
                 }
               }
             }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -310,6 +320,7 @@
             "required": false,
             "in": "query",
             "description": "Account's platform identifier (e.g AWS Account ID)",
+            "example": null,
             "schema": {
               "type": "string"
             }
@@ -354,6 +365,8 @@
             "name": "uid",
             "required": true,
             "in": "path",
+            "description": "Datastore UID",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -421,6 +434,8 @@
             "name": "uid",
             "required": true,
             "in": "path",
+            "description": "Datastore UID",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -453,6 +468,7 @@
             "required": false,
             "in": "query",
             "description": "Search by text that contained inside the fileName or the relativePath",
+            "example": "file.txt",
             "schema": {
               "type": "string"
             }
@@ -462,6 +478,7 @@
             "required": false,
             "in": "query",
             "description": "Search objects which contain the classificationUid",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -568,6 +585,7 @@
             "required": false,
             "in": "query",
             "description": "Classification UIDs (delimited by comma separator ',')",
+            "example": "12345678-1234-1234-1234-123456789012,12345678-1234-1234-1234-123456789012",
             "schema": {
               "format": "form",
               "type": "array",
@@ -616,6 +634,8 @@
             "name": "uid",
             "required": true,
             "in": "path",
+            "description": "File UID from Object. This is the UID of the file that is returned in the response of the /v1/datastores/{uid}/objects endpoint",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -623,25 +643,11 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Successful response with file details",
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/PaginationResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "results": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/FileEndpointDataDto"
-                          }
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/schemas/FileEndpointDataDto"
                 }
               }
             }
@@ -651,7 +657,7 @@
           "File"
         ]
       }
-    },
+    },    
     "/v1/table/{uid}": {
       "get": {
         "operationId": "TableController_findTableByUid",
@@ -660,32 +666,21 @@
             "name": "uid",
             "required": true,
             "in": "path",
+            "description": "Table UID from Object. This is the UID of the table that is returned in the response of the /v1/datastores/{uid}/objects endpoint",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
+
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Successful response with table details",
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/PaginationResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "results": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/TableEndpointDataDto"
-                          }
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/schemas/TableEndpointDataDto"
                 }
               }
             }
@@ -695,7 +690,7 @@
           "Table"
         ]
       }
-    },
+    },    
     "/v1/issues": {
       "get": {
         "operationId": "IssueController_findAll",
@@ -730,8 +725,11 @@
             "required": false,
             "in": "query",
             "description": "Related Datastore UID",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
+
               "type": "string"
+
             }
           },
           {
@@ -739,6 +737,7 @@
             "required": false,
             "in": "query",
             "description": "Issue's creation time (equals to, or later than)",
+            "example": "2022-01-01T00:00:00Z",
             "schema": {
               "format": "date-time",
               "type": "string"
@@ -749,6 +748,7 @@
             "required": false,
             "in": "query",
             "description": "Issue's last update time (equals to, or later than)",
+            "example": "2022-01-01T00:00:00Z",
             "schema": {
               "format": "date-time",
               "type": "string"
@@ -759,6 +759,7 @@
             "required": false,
             "in": "query",
             "description": "Issue's Severity",
+            "example": "Critical",
             "schema": {
               "enum": [
                 "Critical",
@@ -774,6 +775,7 @@
             "required": false,
             "in": "query",
             "description": "Issue Status",
+            "example": "Open",
             "schema": {
               "enum": [
                 "Open",
@@ -846,6 +848,7 @@
             "required": false,
             "in": "query",
             "description": "Related Datastore UID",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -855,6 +858,7 @@
             "required": false,
             "in": "query",
             "description": "Issue's creation time (equals to, or later than)",
+            "example": "2022-01-01T00:00:00Z",
             "schema": {
               "format": "date-time",
               "type": "string"
@@ -865,6 +869,7 @@
             "required": false,
             "in": "query",
             "description": "Issue's last update time (equals to, or later than)",
+            "example": "2022-01-01T00:00:00Z",
             "schema": {
               "format": "date-time",
               "type": "string"
@@ -875,6 +880,7 @@
             "required": false,
             "in": "query",
             "description": "Issue's Severity",
+            "example": "Critical",
             "schema": {
               "enum": [
                 "Critical",
@@ -890,6 +896,7 @@
             "required": false,
             "in": "query",
             "description": "Issue Status",
+            "example": "Open",
             "schema": {
               "enum": [
                 "Open",
@@ -939,6 +946,8 @@
             "name": "uid",
             "required": true,
             "in": "path",
+            "description": "Issue UID",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -1006,6 +1015,8 @@
             "name": "uid",
             "required": true,
             "in": "path",
+            "description": "Issue UID",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -1038,6 +1049,7 @@
             "required": false,
             "in": "query",
             "description": "Search by text that contained inside the fileName or the relativePath",
+            "example": "file.txt",
             "schema": {
               "type": "string"
             }
@@ -1047,6 +1059,7 @@
             "required": false,
             "in": "query",
             "description": "Search objects which contain the classificationUid",
+            "example": "12345678-1234-1234-1234-123456789012",
             "schema": {
               "type": "string"
             }
@@ -1239,7 +1252,12 @@
     "contact": {}
   },
   "tags": [],
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://api.cyera.io",
+      "description": "Production server"
+    }
+  ],
   "components": {
     "securitySchemes": {
       "JWT Bearer": {
